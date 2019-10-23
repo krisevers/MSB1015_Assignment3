@@ -1,5 +1,8 @@
 #!/usr/bin/env nextflow
 
+@Grab(group='io.github.egonw.bacting', module='managers-cdk', version='0.0.9')
+import net.bioclipse.managers.CDKManager
+
 Channel
     .fromPath("./short.tsv")
     .splitCsv(header: ['wikidata', 'smiles'], sep:'\t')
@@ -18,5 +21,5 @@ process calculatePlog {
 		smiles   = entry[1]
 		cdk = new CDKManager(".")
 		mol = cdk.fromSMILES(smiles)
-	}
+    }
 }
