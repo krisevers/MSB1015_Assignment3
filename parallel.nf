@@ -7,17 +7,16 @@ Channel
 	.buffer(size:2, remainder:true)
     .set { molecules_ch }
 
-process printSMILES {
+process calculatePlog {
     input:
-    set wikidata, smiles from molecules_ch
+    each set from molecules_ch
 
     output:
-    file 'results.txt' into result
-    
-    '''
-    echo '$wikidata has SMILES: $smiles' > results.txt
-    '''
-    
+    println "Running..."
+    for (entry in set) {
+		wikidata = entry[0]
+		smiles   = entry[1]
+		cdk = new CDKManager(".")
+		mol = cdk.fromSMILES(smiles)
+	}
 }
-
-result.subscribe { println "hello" }
