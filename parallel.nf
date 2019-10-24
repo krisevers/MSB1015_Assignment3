@@ -8,8 +8,12 @@ import org.openscience.cdk.interfaces.IAtomContainer
 import org.openscience.cdk.qsar.descriptors.molecular.*
 import groovy.time.*
 
+// Create a file in which the number of CPUs that are used a parallel process and the time duration
+// are stored.
+def CPU_duration = new File ("./CPU_duration.tsv")
+
 // Loop over number of CPU's that will be used in the process
-for (i in 12) {
+1.upto(12) {
 
 // Set start time of iteration
 def timeStart  = new Date()
@@ -17,7 +21,7 @@ def timeStart  = new Date()
 // Set size of the buffer size argument. The buffer sets the number of parallel processes that are
 // executed. It does this by splitting the data in segments of a defined size, in this case
 // #molecules/#CPUs.
-int buffersize = (int) Math.ceil(5/i)
+int buffersize = (int) Math.ceil(5/it)
 
 Channel
     .fromPath("./short.tsv")
@@ -62,7 +66,8 @@ def timeStop = new Date()
 
 // Calculate the time between start and end of the iteration
 TimeDuration duration = TimeCategory.minus(timeStop, timeStart)
-// Print duration of iteration
-println "duration: " + duration
+
+// Print number of CPUs and duration to CPU_duration.tsv
+CPU_duration.append("${it} \t ${duration} \n")
 
 }
