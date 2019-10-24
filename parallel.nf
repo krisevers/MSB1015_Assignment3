@@ -12,7 +12,7 @@ Channel
     .fromPath("./short.tsv")
     .splitCsv(header: ['wikidata', 'smiles'], sep:'\t')
     .map{ row -> tuple(row.wikidata, row.smiles) }
-    .buffer(size:2, remainder:true)
+    .buffer (size:2, remainder:true)
     .set { molecules_ch }
 
 process calculatePlog {
@@ -24,12 +24,13 @@ process calculatePlog {
 		wikidata = entry[0]
 		smiles   = entry[1]
 
+                try {
 		// Use from the CDK Manager the fromSMILES function to parse the smiles set and 
 		// retrieve CDK molecule objects
 		cdk = new CDKManager(".")
 		mol = cdk.fromSMILES(smiles)
 
-		// Convert 'mol' (CDK molecule object) to IAtomContainer
+		// Convert CDK molecule object to IAtomContainer
 		Iatom = mol.getAtomContainer()
 		
 		// Calculate logP
@@ -38,5 +39,8 @@ process calculatePlog {
 
 		// Print logP
 		println "logP value: " + logPvalue
+		} catch (Exception exc) {
+		  println "$exc"
+		}
     }
 }
