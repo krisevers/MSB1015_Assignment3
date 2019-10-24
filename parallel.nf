@@ -17,9 +17,19 @@ process calculatePlog {
     output:
     println "Running..."
     for (entry in set) {
+		// 
 		wikidata = entry[0]
 		smiles   = entry[1]
+
+		// Use from the CDK Manager the fromSMILES function to parse the smiles set and 
+		// retrieve CDK molecule objects
 		cdk = new CDKManager(".")
 		mol = cdk.fromSMILES(smiles)
+
+		// Convert 'mol' (CDK molecule object) to IAtomContainer
+		iatomcont = mol.getAtomContainer()
+		
+		// Calculate Plog
+		
     }
 }
