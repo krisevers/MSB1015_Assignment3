@@ -6,14 +6,26 @@
 import net.bioclipse.managers.CDKManager
 import org.openscience.cdk.interfaces.IAtomContainer
 import org.openscience.cdk.qsar.descriptors.molecular.*
+import groovy.time.*
 
+// Loop over number of CPU's that will be used in the process
+for (i in 12) {
+
+// Set start time of iteration
+def timeStart  = new Date()
+
+// Set size of the buffer size argument. The buffer sets the number of parallel processes that are
+// executed. It does this by splitting the data in segments of a defined size, in this case
+// #molecules/#CPUs.
+int buffersize = (int) Math.ceil(5/i)
 
 Channel
     .fromPath("./short.tsv")
     .splitCsv(header: ['wikidata', 'smiles'], sep:'\t')
     .map{ row -> tuple(row.wikidata, row.smiles) }
-    .buffer (size:2, remainder:true)
+    .buffer(size:buffersize, remainder:true)
     .set { molecules_ch }
+
 
 process calculatePlog {
     input:
@@ -43,4 +55,14 @@ process calculatePlog {
 		  println "$exc"
 		}
     }
+}
+
+// Set end time of iteration
+def timeStop = new Date()
+
+// Calculate the time between start and end of the iteration
+TimeDuration duration = TimeCategory.minus(timeStop, timeStart)
+// Print duration of iteration
+println "duration: " + duration
+
 }
