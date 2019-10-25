@@ -7,13 +7,14 @@ The time that the process takes is stored is stored in `CPU_duration.tsv`. The r
 ## Installation
 ### Files
 Make sure that the following file are stored in the same folder. Using [git](https://linuxize.com/post/how-to-install-git-on-debian-10/) in a Linux distribution OS this repository can be cloned to a local drive. note: this also downloads `MoleculesSmiles.tsv`, so step 1 of 'Execution' is not necessary.
-* `parallel.nf`: This nextflow file takes a `.tsv` file and calculates 
-* `getSMILES.rq`
-* `short.tsv`
-* `MoleculesSmiles.tsv`
-* `CPU_timeduration.tsv`
-* `Assignment3.Rmd`
-* `index.html`
+* `parallel.nf`: This nextflow file takes a `.tsv` file and calculates the logP value of the SMILES that are stored in the `.tsv` file and outputs `CPU_timeduration.tsv`. It runs the same process multiple times on different specified numbers of CPUs.
+* `getSMILES.rq` : This file containts the Wikidata Query which is used to generate the `MoleculesSmiles.tsv` with the Wikidata query service.
+* `short.tsv` : This is a toy dataset to test `parallel.nf` with.
+* `MoleculesSmiles.tsv` : this is the full size dataset obtained with the Wikidata query service and contains all molecules in the Wikidata database and their SMILES strings.
+* `CPU_timeduration.tsv` : This file contains the CPU
+* `Assignment3.Rmd` : An R markdown file presenting the results from the parallel computing experiment run by `parallel.nf`.
+* `index.html` : A html version of `Assignment3.Rmd` with the plot printed out for this specific experiment.
+* `.gitignore` : This file specifies the file formats that should not be uploaded to the repository.
 ### Requirements
 This project is produced in the [Debian](https://www.debian.org/) operating system (a Linux distribution). Groovy and Nextflow are installed in this OS, and the file `parallel.nf` is executed using the command `./nextflow parallel.nf` in this OS. The user needs to install the following requirements to make `parallel.nf` executable in Debian or a other Linux destribution.
 * [Java](https://www.java.com/en/download/win10.jsp)
@@ -32,6 +33,10 @@ The results from running this project on the computer of the author *Kris Evers*
 ## References
 * [Chemistry Development Kit](https://cdk.github.io/)
 * [Wikidata](https://query.wikidata.org)
+
+## Licenses
+In this repository software of other creators is used. When using this repository respect the licenses of these dependencies. Here is a list of sources of information on these licenses:
+* [CDK License information](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.en.html)
 
 ## Authors
 * Kris Evers
