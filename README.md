@@ -2,7 +2,7 @@
 ## Introduction
 Calculations on large datasets require sufficient computing power. It is therefore important to design a good architecture for processing of data. Parallel computing is a way of performing a computation in parallel on multiple CPUs. This speeds up the calculation and is thus useful for processing on big datasets. </br>
 In this project a dataset containing SMILES strings for all molecules from [Wikidata](https://wikidata.org/) is taken and the logP value of each molecule is calculated using the [Chemistry Development Kit (CDK)](https://cdk.github.io/) in parallel using the `nextflow` language. The calculations of the logP value of the molecule are performed with different settings for the number of CPUs that the calculation is processed on. </br>
-The time that the process takes is stored is stored in `CPU_duration.tsv`. The results are presented in an R markdown file `Assignment3.Rmd` and as an webpage `index.html` which is hosted [here]() by Github Pages.
+The time that the process takes is stored is stored in `CPU_duration.tsv`. The results are presented in an R markdown file `Assignment3.Rmd` and as an webpage `index.html` which is hosted [here](https://krisevers.github.io/MSB1015_Assignment3/) by Github Pages.
 
 ## Installation
 ### Files
@@ -20,14 +20,14 @@ This project is produced in the [Debian](https://www.debian.org/) operating syst
 * [Groovy](https://groovy-lang.org/install.html)
 * [Nextflow](https://www.nextflow.io/)
 * [RStudio](https://rstudio.com/)
-## User specific settings
+### User specific settings
 The number of CPUs that are available for computation differs per device, therefore the the user needs to specify the number of CPUs that the process is run on by hand. This has to be specified in the file `parallel.nf`. Here the variable `num_CPUs` indicates the number of CPUs that the device has. This number can be changed according to the users preferences.
-## Execution
+### Execution
 1. Copy and past the lines of code in the `getSMILES.rq` file into the [Wikidata query service](https://query.wikidata.org/). Run the query and save the response as `MoleculesSmiles.tsv`.
 2. Open the linux distribution and execute `parallel.nf` with `nextflow`. Make sure that the requirements are installed and the files are in the same folder as `MoleculesSmiles.tsv`. Make sure that `CPU_duration.tsv` is not in the folder as the this step produces a new `CPU_duration.tsv` file.
 3. Run the file `Assignment3.Rmd` in RStudio to see the results of your parallel computating session.
 ## Results
-The results from running this project on the computer of the author *Kris Evers* are presented in R markdown format. The output from `parallel.nf`, which is `CPU_duration.tsv` is processed in RStudio and presented in an R markdown file `Assignment3.Rmd` and as a webpage `index.html` and hosted [here]() by Github Pages.
+The results from running this project on the computer of the author *Kris Evers* are presented in R markdown format. The output from `parallel.nf`, which is `CPU_duration.tsv` is processed in RStudio and presented in an R markdown file `Assignment3.Rmd` and as a webpage `index.html` and hosted [here](https://krisevers.github.io/MSB1015_Assignment3/) by Github Pages.
 
 ## References
 * [Chemistry Development Kit](https://cdk.github.io/)
