@@ -1,0 +1,42 @@
+---
+title: "MSB1015_Assignment3"
+author: "Kris Evers"
+date: "10/25/2019"
+output: html_notebook
+---
+
+## Introduction
+Calculations on large datasets require sufficient computing power. It is therefore important to design a good architecture for processing of the data. Parallel computing is a way of performing computations in parallel on multiple CPUs. This speeds up the calculation and is thus useful for processing on big datasets. The parallel computations are performed using `parallel.nf` and the time durations of the processes on the different CPU settings are saved in the file `CPU_duration.tsv`. This file is here used to produce a plot of and a discussion explaining these results is presented. This plot and discussion can be found at the end of this page.
+
+## Methods
+This project uses a dataset containing SMILES strings for all molecules from the Wikidata database [1]. The file `parallel.nf` calculates for each SMILES string the logP value using parallel computing in the `nextflow` language. The Chemistry Development Kit (CDK) [2] is used for parsing the SMILES strings and calculation of the logP value. For this project the interest is in reporting the differences in time duration of this process when it is run on a different number of CPUs in parallel.
+
+```{r install package}
+  # install and load the stringr package, only run this part if it was not installed and loaded before
+  install.packages('stringr')
+  library(stringr)
+```
+
+```{r import CPU_duration}
+  # Import CPU_duration.tsv
+  CPU_duration <- read.table(file = 'CPU_duration.tsv', sep = '\t', header = FALSE)
+  # split the time and the 'seconds' label in the second column
+  CPU_duration[,2:3] <- str_split_fixed(CPU_duration[,2], " ", 2)
+```
+
+## Results
+```{r plot CPU_duration}
+  # Plotting the time duration of a process to the number of CPUs used in a process
+  plot(x = CPU_duration[,1], 
+       y = CPU_duration[,2],
+                    main = 'Figure 1: time duration per #CPUs used in process',
+                    xlab = '#CPU',
+                    ylab = 'duration (s)')
+```
+
+## Discussion
+Figure 1 shows that for the calculation of logP values there is no dependence on the number of CPUs that are used in the parallel calculation process. An explanation of why this is the case is the notation of the time duration is not reflecting the computation time of the whole process per CPU setting. Another explanation could be that because the calculation of the logP value for many molecules is not possible, the computation time is short so short that the process seems not to be dependent on the number of CPUs used for the calculation. These problems have to be solved by further development of the code in the future to get improved processing and notation of the time duration of the process. Due to time constraints these limitations are not been solved, although this project in it's current state provides the architecture for the parallel process in `nextflow` and for saving the time duration of the process in a `.tsv` file.
+
+## References
+[1] [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page) </br>
+[2] [Chemistry Development Kit](https://cdk.github.io/) </br>
